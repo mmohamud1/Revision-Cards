@@ -17,20 +17,7 @@ let currentActiveCard = 0;
 const cardsEl = [];
 
 // Store card data
-const cardsData = [
-    {
-        question: 'Who is the president of America?',
-        answer: 'Donald Trump'
-    },
-    {
-        question: 'Who is the queen of the United kingdon?',
-        answer: 'Queen Elizabeth II'
-    },
-    {
-        question: 'Which countries are a part of the G7?',
-        answer: 'United States, Germany, United Kingdom, Japan, Canada, Italy and France'
-    }
-];
+const cardsData = getCardsData();
 
 // Create all cards
 const createCards = () => {
@@ -68,9 +55,45 @@ const createCard = (data, index) => {
     updateCurrentText();
 }
 
-// Show number cards
+// Show current card number over total number of  cards
 const updateCurrentText = () => {
     currentEl.innerText = `${ currentActiveCard + 1}/${cardsEl.length}`;
 }
 
 createCards();
+
+// Get Cards from local storage
+const getCardsData = () => {
+    const cards = JSON.parse(localStorage.getItem('cards'));
+}
+
+// Event listeners 
+// Next button
+nextBtn.addEventListener('click', () => {
+    cardsEl[currentActiveCard].className = 'card left';
+  
+    currentActiveCard = currentActiveCard + 1;
+  
+    if (currentActiveCard > cardsEl.length - 1) {
+      currentActiveCard = cardsEl.length - 1;
+    }
+  
+    cardsEl[currentActiveCard].className = 'card active';
+  
+    updateCurrentText();
+});
+
+// Prev button
+prevBtn.addEventListener('click', () => {
+    cardsEl[currentActiveCard].className = 'card right';
+  
+    currentActiveCard = currentActiveCard - 1;
+  
+    if (currentActiveCard < 0) {
+      currentActiveCard = 0;
+    }
+  
+    cardsEl[currentActiveCard].className = 'card active';
+  
+    updateCurrentText();
+});
